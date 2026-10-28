@@ -1,0 +1,708 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Basic Meta Information -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+<title>CutX PDF — All PDF Tools</title>
+
+<meta
+    name="description"
+    content="CutX PDF — Your complete PDF workspace to organize, convert, edit and protect documents. Launching 4 May 2027."
+>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+>
+
+<!-- CutX PDF Favicon -->
+<link rel="icon" type="image/png" href="./favicon.png">
+
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- PDF Processing Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>  
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>  
+</head>
+
+<body data-tool="merge">
+
+    <!-- ==================== HEADER / NAVBAR ==================== -->
+    <header class="navbar">
+
+        <a href="#" class="brand" aria-label="CutX PDF Home">
+        <span class="logo">C✦</span>
+        CutX <span>PDF</span>
+        </a>
+
+        <nav id="navLinks">
+            <a href="#tools">All Tools</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button
+                id="themeToggle"
+                class="theme-btn"
+                aria-label="Toggle theme"
+            >
+                ☾
+            </button>
+
+            <a href="#tools" class="btn primary small">
+                Explore Tools ↗
+            </a>
+
+            <button
+                id="menuToggle"
+                class="menu-btn"
+                aria-label="Toggle menu"
+            >
+                ☰
+            </button>
+        </div>
+
+    </header>
+
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+
+        <!-- HERO SECTION -->
+        <section class="hero">
+
+            <div class="hero-copy">
+
+                <div class="eyebrow">
+                    <span></span>
+                    YOUR COMPLETE PDF WORKSPACE
+                </div>
+
+                <h1>
+                    Make PDFs work<br>
+                    <span class="gradient">for you.</span>
+                </h1>
+
+                <p>
+                    Everything you need to organize, convert, edit and
+                    protect your documents. Simple tools. Beautiful experience.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#tools" class="btn primary">
+                        Explore all tools →
+                    </a>
+
+                    <button class="btn secondary" id="startBtn">
+                        ↑ Choose a PDF
+                    </button>
+                </div>
+
+                <div class="trust">
+                    <span class="trust-icon">✓</span>
+                    Simple to use
+                    <span class="trust-dot">•</span>
+                    Browser-based processing for supported tools
+                </div>
+
+            </div>
+
+
+            <!-- HERO ILLUSTRATION -->
+            <div class="hero-art">
+
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+
+                <!-- Floating Workspace Card -->
+                <div class="floating-chip chip-one">
+                    <span class="chip-symbol">✦</span>
+
+                    <div>
+                        <b>Smart workspace</b>
+                        <small>Everything in one place</small>
+                    </div>
+                </div>
+
+
+                <!-- Workspace Preview -->
+                <div class="preview">
+
+                    <div class="preview-top">
+                        <div class="window-dots">
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                        </div>
+
+                        <span>My workspace</span>
+                        <span class="more">•••</span>
+                    </div>
+
+
+                    <div class="preview-body">
+
+                        <small class="muted">YOUR WORKSPACE</small>
+
+                        <h3>What will you do today?</h3>
+
+                        <div class="preview-grid">
+
+                            <div class="preview-tool">
+                                <span class="tile pink">⇄</span>
+                                <b>Organize PDF</b>
+                            </div>
+
+                            <div class="preview-tool">
+                                <span class="tile blue">↗</span>
+                                <b>Convert PDF</b>
+                            </div>
+
+                            <div class="preview-tool">
+                                <span class="tile orange">▤</span>
+                                <b>Edit PDF</b>
+                            </div>
+
+                            <div class="preview-tool">
+                                <span class="tile green">✦</span>
+                                <b>AI tools</b>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Launch Preview -->
+                        <div class="preview-upload">
+                            <span>⌛</span>
+                            <b>Something great is coming</b>
+                            <small>17 tools planned for launch</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Launch Countdown Card -->
+                <div class="floating-chip chip-two">
+                    <span class="chip-symbol green">✓</span>
+
+                    <div>
+                        <b>Launch countdown</b>
+                        <small>4 May 2027</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATISTICS SECTION -->
+        <section class="stats">
+
+            <div>
+                <strong>30+</strong>
+                <span>PDF tool options</span>
+            </div>
+
+            <div>
+                <strong>7</strong>
+                <span>Tool categories</span>
+            </div>
+
+            <div>
+                <strong>Browser</strong>
+                <span>Processing for supported tools</span>
+            </div>
+
+        </section>
+
+
+        <!-- ==================== PDF TOOLS SECTION ==================== -->
+        <section class="tools-section section" id="tools">
+
+            <div class="section-heading">
+
+                <div>
+                    <div class="eyebrow">THE TOOLKIT</div>
+
+                    <h2>
+                        One place.
+                        <span class="gradient">Every PDF task.</span>
+                    </h2>
+
+                    <p>Choose a tool to see its launch countdown.</p>
+                </div>
+
+
+                <!-- Search PDF Tools -->
+                <label class="search">
+                    <span>⌕</span>
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search PDF tools..."
+                        aria-label="Search PDF tools"
+                    >
+                </label>
+
+            </div>
+
+
+            <!-- Tool Category Filters -->
+            <div class="categories" id="categories">
+
+                <button class="category active" data-category="all">
+                    All Tools
+                </button>
+
+                <button class="category" data-category="organize">
+                    Organize PDF
+                </button>
+
+                <button class="category" data-category="to-pdf">
+                    Convert to PDF
+                </button>
+
+                <button class="category" data-category="from-pdf">
+                    Convert from PDF
+                </button>
+
+                <button class="category" data-category="edit">
+                    Edit PDF
+                </button>
+
+                <button class="category" data-category="security">
+                    PDF Security
+                </button>
+
+                <button class="category" data-category="intelligence">
+                    PDF Intelligence
+                </button>
+
+            </div>
+
+
+            <!-- Dynamic Tool Cards -->
+            <div id="toolGroups"></div>
+
+
+            <!-- Empty Search Results -->
+            <div id="noResults" class="no-results hidden">
+
+                <div>⌕</div>
+
+                <h3>No tools found</h3>
+
+                <p>Try searching for a different tool.</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================== FEATURES SECTION ==================== -->
+        <section class="features-section" id="features">
+
+            <div class="section">
+
+                <div class="eyebrow">MADE FOR YOUR WORKFLOW</div>
+
+                <h2>
+                    Less effort.
+                    <span class="gradient">More done.</span>
+                </h2>
+
+
+                <div class="feature-grid">
+
+                    <!-- Feature 1 -->
+                    <article class="feature-card">
+
+                        <div class="feature-icon purple">✦</div>
+
+                        <h3>Simple workspace</h3>
+
+                        <p>
+                            Find the right tool quickly with clear categories
+                            and smart search.
+                        </p>
+
+                    </article>
+
+
+                    <!-- Feature 2 -->
+                    <article class="feature-card">
+
+                        <div class="feature-icon blue">⚡</div>
+
+                        <h3>Launch countdown</h3>
+
+                        <p>
+                            Every listed tool opens a live countdown to
+                            the planned launch date.
+                        </p>
+
+                    </article>
+
+
+                    <!-- Feature 3 -->
+                    <article class="feature-card">
+
+                        <div class="feature-icon green">⌑</div>
+
+                        <h3>Privacy-minded</h3>
+
+                        <p>
+                            This Coming Soon demo does not ask you to
+                            upload any documents.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================== ABOUT SECTION ==================== -->
+        <section class="about section" id="about">
+
+            <div class="about-icon">⌑</div>
+
+            <div>
+
+                <div class="eyebrow">YOUR FILES MATTER</div>
+
+                <h2>Documents made simpler.</h2>
+
+                <p>
+                    CutX PDF is preparing a collection of PDF tools.
+                    The features listed here are not active yet.
+                    Planned launch date: 4 May 2027.
+                </p>
+
+            </div>
+
+            <span class="privacy-label">
+                ⌛ Coming Soon
+            </span>
+
+        </section>
+
+    </main>
+
+
+    
+<!-- ==================== FOOTER ==================== -->
+
+<footer class="site-footer">
+
+    <div class="footer-main">
+
+        <a href="#" class="brand" aria-label="CutX PDF Home">
+            <span class="logo">C✦</span>
+            <span>CutX <span>PDF</span></span>
+        </a>
+
+        <p class="footer-tagline">
+            Make documents feel effortless.
+        </p>
+
+    </div>
+
+    <div class="legal-footer">
+
+        <span class="legal-heading">Legal & Privacy</span>
+
+        <nav class="legal-links" aria-label="Legal information">
+            <button type="button" data-legal="terms">
+                Terms & Conditions
+            </button>
+
+            <button type="button" data-legal="privacy">
+                Privacy Policy
+            </button>
+
+            <button type="button" data-legal="cookies">
+                Cookie Policy
+            </button>
+
+            <button type="button" id="openCookieSettings">
+                Cookie Settings
+            </button>
+        </nav>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© <span id="year"></span> CutX PDF. All rights reserved.</p>
+
+        <span class="footer-status">
+            <span class="status-dot"></span>
+            Your documents matter.
+        </span>
+    </div>
+
+</footer>
+
+
+
+<!-- ==================== PDF TOOL MODAL ==================== -->
+<div class="modal-backdrop" id="modal">
+
+    <section
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+    >
+
+        <button
+            id="closeModal"
+            class="close-modal"
+            type="button"
+            aria-label="Close"
+        >
+            &times;
+        </button>
+
+        <div class="eyebrow">
+            <span></span>
+            CutX PDF WORKSPACE
+        </div>
+
+        <div class="modal-icon" id="modalIcon">⇄</div>
+
+        <h2 id="modalTitle">Merge PDF</h2>
+
+        <p id="modalDescription" class="modal-description"></p>
+
+        <div id="toolForm"></div>
+
+        <div id="status" role="status" aria-live="polite"></div>
+
+        <div class="modal-footer">
+
+            <span class="privacy-note">
+                ⌑ Browser-based processing for supported tools
+            </span>
+
+            <button
+                id="downloadResult"
+                class="btn secondary"
+                type="button"
+                hidden
+            >
+                ↓ Download again
+            </button>
+
+            <button
+                id="processBtn"
+                class="btn primary"
+                type="button"
+            >
+                Process PDF →
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- ==================== HIDDEN FILE PICKER ==================== -->
+<input
+    id="filePicker"
+    type="file"
+    accept=".pdf,application/pdf"
+    multiple
+    hidden
+>
+
+
+<!-- ==================== FIRST-VISIT PRIVACY POPUP ==================== -->
+<div
+    class="legal-overlay"
+    id="consentPopup"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="consentTitle"
+    hidden
+>
+
+    <div class="legal-card consent-card">
+
+        <button
+            type="button"
+            class="legal-close"
+            id="closeConsent"
+            aria-label="Close privacy notice"
+        >
+            &times;
+        </button>
+
+        <div class="legal-symbol">P✦</div>
+
+        <span class="legal-eyebrow">WELCOME TO CutX PDF</span>
+
+        <h2 id="consentTitle">
+            Privacy comes first.
+        </h2>
+
+        <p>
+            Review our privacy policies and choose whether to allow
+            optional analytics or advertising technologies, if enabled.
+        </p>
+
+        <div class="consent-details">
+
+            <div>
+                <span>✓</span>
+                <div>
+                    <strong>Essential storage</strong>
+                    <small>
+                        Supports basic functionality and remembers your choice.
+                    </small>
+                </div>
+            </div>
+
+            <div>
+                <span>⚙</span>
+                <div>
+                    <strong>Optional technologies</strong>
+                    <small>
+                        Analytics and advertising may require your consent.
+                    </small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="consent-actions">
+
+            <button
+                type="button"
+                class="legal-btn legal-primary"
+                id="acceptAllCookies"
+            >
+                Accept all
+            </button>
+
+            <button
+                type="button"
+                class="legal-btn"
+                id="essentialOnly"
+            >
+                Essential only
+            </button>
+
+            <button
+                type="button"
+                class="legal-btn legal-text-btn"
+                data-legal="privacy"
+            >
+                Privacy Policy
+            </button>
+
+            <button
+                type="button"
+                class="legal-btn legal-text-btn"
+                data-legal="cookies"
+            >
+                Cookie Policy
+            </button>
+
+        </div>
+
+        <small class="consent-note">
+            Change your preferences anytime through Cookie Settings.
+        </small>
+
+    </div>
+
+</div>
+
+
+<!-- ==================== LEGAL POLICY VIEWER ==================== -->
+<div
+    class="legal-overlay"
+    id="legalViewer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="legalTitle"
+    hidden
+>
+
+    <div class="legal-card legal-document-card">
+
+        <button
+            type="button"
+            class="legal-close"
+            id="closeLegal"
+            aria-label="Close policy"
+        >
+            &times;
+        </button>
+
+        <span class="legal-eyebrow">CutX PDF · LEGAL CENTRE</span>
+
+        <h2 id="legalTitle">Privacy Policy</h2>
+
+        <p class="legal-updated">
+            Last updated: 28 October 2026
+        </p>
+
+        <div id="legalContent" class="legal-content"></div>
+
+        <div class="legal-document-actions">
+
+            <button
+                type="button"
+                class="legal-btn"
+                id="legalCookieSettings"
+            >
+                Cookie Settings
+            </button>
+
+            <button
+                type="button"
+                class="legal-btn legal-primary"
+                id="closeLegalBottom"
+            >
+                Done
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+    <!-- ==================== MAIN JAVASCRIPT ==================== -->
+    <script src="script.js"></script>
+    <script src="pdf-engine.js"></script>
+    <!-- CutX PDF Legal & Cookie Popup -->
+    <script src="legal.js"></script>
+
+</body>
+</html>
