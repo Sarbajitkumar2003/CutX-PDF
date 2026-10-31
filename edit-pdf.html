@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b14">
+  <title>Edit PDF - CutX PDF</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Roboto&family=Open+Sans&family=Lato&family=Montserrat&family=Poppins&family=Nunito&family=Raleway&family=Ubuntu&family=Playfair+Display&family=Merriweather&family=Oswald&family=Roboto+Slab&family=DM+Sans&family=Manrope&family=Work+Sans&family=Fira+Sans&family=Quicksand&family=Barlow&family=Karla&family=Archivo&family=Space+Grotesk&family=Space+Mono&family=Inconsolata&family=Source+Sans+3&family=Mulish&family=Lexend&family=Urbanist&family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="edit-pdf.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-icon">C✦</span>
+    CutX <span>PDF</span>
+  </a>
+
+  <div class="top-actions">
+    <button id="undoBtn" class="top-btn" disabled>↶ Undo</button>
+    <button id="redoBtn" class="top-btn" disabled>↷ Redo</button>
+
+    <button id="downloadBtn" class="download-btn" disabled>
+      ↓ Download PDF
+    </button>
+  </div>
+</header>
+
+<main class="editor">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="panel-heading">
+      <h2>Edit PDF</h2>
+      <p>Select and replace text in your PDF.</p>
+    </div>
+
+    <!-- UPLOAD PDF -->
+    <section class="tool-group">
+
+      <label class="section-label">UPLOAD DOCUMENT</label>
+
+      <label for="filePicker" class="upload-box">
+        <span class="upload-icon">↑</span>
+        <strong>Choose PDF file</strong>
+        <small>PDF files up to 100 MB</small>
+      </label>
+
+      <input
+        type="file"
+        id="filePicker"
+        accept="application/pdf,.pdf"
+        hidden
+      >
+
+      <div id="fileName" class="file-name">
+        No PDF selected
+      </div>
+
+    </section>
+
+    <!-- TEXT SELECTION -->
+    <section class="tool-group">
+
+      <label class="section-label">TEXT SELECTION</label>
+
+      <div class="info-box">
+        Enable text selection, then click directly on text in the PDF.
+      </div>
+
+      <button
+        id="selectPdfTextBtn"
+        class="primary-btn"
+        disabled
+      >
+        Select PDF Text
+      </button>
+
+      <div class="selected-text-box">
+
+        <label for="selectedText">Selected text</label>
+
+        <textarea
+          id="selectedText"
+          rows="3"
+          readonly
+          placeholder="Click text inside your PDF..."
+        ></textarea>
+
+      </div>
+
+    </section>
+
+    <!-- REPLACE TEXT -->
+    <section class="tool-group">
+
+      <label class="section-label">REPLACE TEXT</label>
+
+      <label for="replacementText">New text</label>
+
+      <textarea
+        id="replacementText"
+        rows="3"
+        placeholder="Enter replacement text..."
+      ></textarea>
+
+      <label for="fontFamily">Font family</label>
+
+      <select id="fontFamily">
+        <option value="Inter">Inter</option>
+        <option value="Roboto">Roboto</option>
+        <option value="Open Sans">Open Sans</option>
+        <option value="Lato">Lato</option>
+        <option value="Montserrat">Montserrat</option>
+        <option value="Poppins">Poppins</option>
+        <option value="Nunito">Nunito</option>
+        <option value="Raleway">Raleway</option>
+        <option value="Ubuntu">Ubuntu</option>
+        <option value="Playfair Display">Playfair Display</option>
+        <option value="Merriweather">Merriweather</option>
+        <option value="Oswald">Oswald</option>
+        <option value="Roboto Slab">Roboto Slab</option>
+        <option value="DM Sans">DM Sans</option>
+        <option value="Manrope">Manrope</option>
+        <option value="Work Sans">Work Sans</option>
+        <option value="Fira Sans">Fira Sans</option>
+        <option value="Quicksand">Quicksand</option>
+        <option value="Barlow">Barlow</option>
+        <option value="Karla">Karla</option>
+        <option value="Archivo">Archivo</option>
+        <option value="Space Grotesk">Space Grotesk</option>
+        <option value="Space Mono">Space Mono</option>
+        <option value="Inconsolata">Inconsolata</option>
+        <option value="Source Sans 3">Source Sans 3</option>
+        <option value="Mulish">Mulish</option>
+        <option value="Lexend">Lexend</option>
+        <option value="Urbanist">Urbanist</option>
+        <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+        <option value="Helvetica">Helvetica</option>
+        <option value="Times Roman">Times Roman</option>
+        <option value="Courier">Courier</option>
+      </select>
+
+      <div class="two-columns">
+
+        <div>
+          <label for="fontSize">Font size</label>
+          <input
+            type="number"
+            id="fontSize"
+            min="5"
+            max="100"
+            value="14"
+          >
+        </div>
+
+        <div>
+          <label for="textColor">Text color</label>
+          <input
+            type="color"
+            id="textColor"
+            value="#111111"
+          >
+        </div>
+
+      </div>
+
+      <label for="coverColor">Background cover color</label>
+
+      <input
+        type="color"
+        id="coverColor"
+        value="#ffffff"
+      >
+
+      <button
+        id="replaceTextBtn"
+        class="primary-btn"
+        disabled
+      >
+        Apply Replacement
+      </button>
+
+    </section>
+
+    <!-- PAGE CONTROLS -->
+    <section class="tool-group">
+
+      <label class="section-label">PAGE CONTROLS</label>
+
+      <div class="page-controls">
+
+        <button
+          id="prevPageBtn"
+          class="secondary-btn"
+          disabled
+        >←</button>
+
+        <span id="pageInfo">0 / 0</span>
+
+        <button
+          id="nextPageBtn"
+          class="secondary-btn"
+          disabled
+        >→</button>
+
+      </div>
+
+      <div class="zoom-controls">
+
+        <button
+          id="zoomOutBtn"
+          class="secondary-btn"
+          disabled
+        >−</button>
+
+        <span id="zoomValue">100%</span>
+
+        <button
+          id="zoomInBtn"
+          class="secondary-btn"
+          disabled
+        >+</button>
+
+      </div>
+
+    </section>
+
+    <!-- STATUS -->
+    <div id="statusMessage" class="status-message">
+      Upload a PDF to begin.
+    </div>
+
+  </aside>
+
+  <!-- PDF WORKSPACE -->
+  <section class="workspace">
+
+    <div id="emptyState" class="empty-state">
+
+      <div class="empty-icon">PDF</div>
+
+      <h2>Your PDF workspace</h2>
+
+      <p>
+        Upload a PDF and click Select PDF Text to start editing.
+      </p>
+
+    </div>
+
+    <div id="pageContainer" class="page-container hidden">
+
+      <canvas id="pdfCanvas"></canvas>
+
+      <div id="textLayer" class="text-layer"></div>
+
+      <div id="overlay" class="overlay"></div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<script src="edit-pdf.js"></script>
+
+</body>
+</html>

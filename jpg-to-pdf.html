@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d18">
+  <title>JPG to PDF | CutX PDF</title>
+  <link rel="stylesheet" href="jpg-to-pdf.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script defer src="jpg-to-pdf.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <a href="index.html" class="brand">CutX <span>PDF</span></a>
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="eyebrow">CUTX PDF TOOLS</div>
+      <h1>JPG to <span>PDF</span></h1>
+      <p>Convert your images into a professional PDF document.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="upload-area" id="dropZone">
+        <div class="upload-icon">↑</div>
+        <h2>Drop your images here</h2>
+        <p>or select files from your device</p>
+        <button type="button" class="primary-btn" id="browseBtn">
+          Choose Images
+        </button>
+        <small>JPG, JPEG, PNG and WEBP supported</small>
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/jpeg,image/png,image/webp"
+          multiple
+          hidden
+        >
+      </div>
+
+      <div class="file-section">
+        <div class="section-heading">
+          <div>
+            <h2>Your Images</h2>
+            <p id="imageCount">0 images selected</p>
+          </div>
+          <button type="button" id="clearBtn" class="text-btn">
+            Clear All
+          </button>
+        </div>
+
+        <div id="previewGrid" class="preview-grid">
+          <div class="empty-state">
+            Your uploaded images will appear here.
+          </div>
+        </div>
+      </div>
+
+      <section class="settings">
+        <h2>PDF Settings</h2>
+
+        <div class="settings-grid">
+          <div class="field">
+            <label for="pageSize">Page Size</label>
+            <select id="pageSize">
+              <option value="a4">A4</option>
+              <option value="a3">A3</option>
+              <option value="letter">Letter</option>
+              <option value="fit">Original Image Size</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="orientation">Orientation</label>
+            <select id="orientation">
+              <option value="auto">Auto</option>
+              <option value="portrait">Portrait</option>
+              <option value="landscape">Landscape</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="margin">Page Margin</label>
+            <select id="margin">
+              <option value="0">No Margin</option>
+              <option value="18">Small</option>
+              <option value="36" selected>Normal</option>
+              <option value="60">Large</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="imageFit">Image Fitting</label>
+            <select id="imageFit">
+              <option value="contain">Fit Image</option>
+              <option value="cover">Fill Page</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field filename-field">
+          <label for="fileName">PDF File Name</label>
+          <input
+            type="text"
+            id="fileName"
+            value="CutXPDF-Images"
+            maxlength="80"
+            placeholder="Enter PDF name"
+          >
+        </div>
+      </section>
+
+      <div class="progress-area" id="progressArea" hidden>
+        <div class="progress-info">
+          <span id="progressText">Preparing PDF...</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </div>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+
+      <button type="button" id="convertBtn" class="convert-btn" disabled>
+        Convert to PDF →
+      </button>
+
+      <button type="button" id="downloadBtn" class="download-btn" hidden>
+        ↓ Download PDF
+      </button>
+    </section>
+
+    <p class="privacy-note">
+      🔒 Your images are processed locally in your browser.
+    </p>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> CutX PDF. All rights reserved.</p>
+  </footer>
+</body>
+</html>
