@@ -38,7 +38,36 @@
 
     --shadow: 0 20px 60px rgba(54, 45, 120, .09);
 }
+/* =================================
+   CUTX PDF - FONT SYSTEM
+================================= */
 
+:root {
+    --font-primary: "Inter", sans-serif;
+    --font-heading: "Outfit", sans-serif;
+}
+
+body {
+    font-family: var(--font-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.logo,
+.brand {
+    font-family: var(--font-heading);
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
 
 /* =========================================================
    02. GLOBAL RESET & BASE STYLES
@@ -769,7 +798,21 @@ h2 {
     color: var(--bg);
     border-color: var(--text);
 }
+.category {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.category.active {
+    background: linear-gradient(135deg, #00e5ff, #536dfe);
+    color: #fff;
+    border: 1px solid #00e5ff;
+    box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+}
+
+.category:hover {
+    transform: translateY(-3px);
+}
 
 /* =========================================================
    10. TOOL GROUPS & TOOL CARDS
@@ -2608,4 +2651,350 @@ input, select, textarea, button { max-width: 100%; }
   .stats { grid-template-columns: 1fr; gap: 14px; }
   .stats > div { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .stats strong { font-size: 18px; }
+}
+/* =====================================
+   CUTX PDF - FONT FIX
+===================================== */
+
+:root {
+    --font-main: "Inter", sans-serif;
+    --font-title: "Outfit", sans-serif;
+}
+
+html,
+body {
+    font-family: var(--font-main) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.logo,
+.brand {
+    font-family: var(--font-title) !important;
+}
+
+button,
+input,
+textarea,
+select,
+option {
+    font-family: var(--font-main) !important;
+}
+
+/* =====================================================
+   CUTX PDF — IMAGE & PDF PAGE PREVIEW UPGRADE
+   JPG TO PDF + PDF TO JPG
+   ===================================================== */
+
+.preview-settings {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.preview-settings .field {
+    margin-top: 0;
+}
+
+.preview-settings .field.full {
+    grid-column: 1 / -1;
+}
+
+.preview-settings select {
+    min-height: 43px;
+}
+
+/* Preview Header */
+
+.preview-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 20px 0 12px;
+}
+
+.preview-heading h3 {
+    font-size: 13px;
+    color: var(--text);
+}
+
+.preview-count {
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: var(--surface2);
+    color: var(--primary);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* Preview Grid */
+
+.media-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 11px;
+    margin-top: 12px;
+}
+
+/* Preview Card */
+
+.media-preview-card {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: var(--surface);
+    transition: transform .2s, border-color .2s;
+}
+
+.media-preview-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
+}
+
+.media-preview-card.dragging {
+    opacity: .4;
+    border: 2px dashed var(--primary);
+}
+
+.media-preview-card.drag-over {
+    outline: 2px solid var(--primary);
+}
+
+/* Thumbnail */
+
+.media-preview-image {
+    width: 100%;
+    height: 112px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--surface2);
+}
+
+.media-preview-image img,
+.media-preview-image canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Card Information */
+
+.media-preview-info {
+    padding: 9px;
+}
+
+.media-preview-info strong {
+    display: block;
+    overflow: hidden;
+    color: var(--text);
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.media-preview-info small {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* Page Number */
+
+.preview-number {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    padding: 5px 8px;
+    border-radius: 7px;
+    background: rgba(25, 24, 46, .82);
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+/* Preview Actions */
+
+.preview-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 7px;
+    border-top: 1px solid var(--line);
+}
+
+.preview-actions button {
+    min-width: 29px;
+    min-height: 29px;
+    padding: 5px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.preview-actions button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.preview-actions .remove-preview {
+    color: #d34f62;
+}
+
+/* Drag Handle */
+
+.drag-handle {
+    color: var(--muted);
+    font-size: 14px;
+    cursor: grab;
+    user-select: none;
+}
+
+/* Empty Preview */
+
+.preview-empty {
+    grid-column: 1 / -1;
+    padding: 25px 12px;
+    text-align: center;
+    border: 1px dashed var(--line);
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* Settings Note */
+
+.preview-note {
+    margin-top: 10px;
+    padding: 11px;
+    border-radius: 10px;
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* Orientation Options */
+
+.orientation-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+}
+
+.orientation-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.orientation-option:has(input:checked) {
+    border-color: var(--primary);
+    background: #7565ff12;
+}
+
+.orientation-option input {
+    accent-color: var(--primary);
+}
+
+/* Responsive */
+
+@media (max-width: 520px) {
+    .media-preview-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .media-preview-image {
+        height: 100px;
+    }
+
+    .preview-settings {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-settings .field.full {
+        grid-column: auto;
+    }
+
+    .preview-heading {
+        align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .media-preview-card {
+        transition: none;
+    }
+}
+.media-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 14px;
+  margin-top: 15px;
+}
+
+.media-preview-card {
+  position: relative;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.media-preview-image {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f1f1f1;
+}
+
+.preview-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+
+.preview-info b {
+  font-size: 12px;
+}
+
+.preview-info small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.preview-empty {
+  grid-column: 1 / -1;
+  padding: 25px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
 }
