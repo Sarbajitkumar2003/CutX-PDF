@@ -87,17 +87,17 @@ const groups = [
     ]
   },
   {
-    id: "to-pdf",
-    title: "Convert to PDF",
-    color: "#e99b45",
-    tools: [
-      ["JPG to PDF", "Convert images into PDF.", "▧", "images"],
-      ["WORD to PDF", "Convert DOCX documents.", "W", "word"],
-      ["POWERPOINT to PDF", "Convert presentations.", "P", "powerpoint"],
-      ["EXCEL to PDF", "Convert spreadsheets.", "X", "excel"],
-      ["HTML to PDF", "Convert web content.", "〈〉", "html"]
-    ]
-  },
+  id: "to-pdf",
+  title: "Convert to PDF",
+  color: "#e99b45",
+  tools: [
+    ["JPG to PDF", "Convert JPG, PNG and WEBP images into a PDF.", "▧", "jpg-to-pdf"],
+    ["WORD to PDF", "Convert DOCX documents.", "W", "word"],
+    ["POWERPOINT to PDF", "Convert presentations.", "P", "powerpoint"],
+    ["EXCEL to PDF", "Convert spreadsheets.", "X", "excel"],
+    ["HTML to PDF", "Convert web content.", "〈〉", "html"]
+  ]
+},
   {
     id: "from-pdf",
     title: "Convert from PDF",
@@ -168,7 +168,7 @@ const $ = selector => document.querySelector(selector);
 // Only these requested tools are locked until the planned launch date.
 const comingSoonTools = new Set([
   "organize", "word", "powerpoint", "pdfppt", "excel", "pdfexcel",
-  "html", "pdfa", "editor", "forms", "unlock", "protect", "sign",
+  "html", "pdfa", "forms", "unlock", "protect", "sign",
   "redact", "compare", "summary", "translate"
 ]);
 const launchTime = new Date("2027-05-04T00:00:00+05:30").getTime();
@@ -179,6 +179,10 @@ let activeCategory = "all";
 let searchText = "";
 let activeTool = "";
 let selectedFiles = [];
+let previewObjectUrls = [];
+let previewRenderToken = 0;
+let pdfPageOrder = [];
+let pdfPreviewDocument = null;
 let lastDownloadBlob = null;
 let lastDownloadFilename = "CutXPDF-result.pdf";
 let processingProgressTimer = null;
@@ -255,11 +259,27 @@ function renderTools() {
     container.appendChild(section);
   });
 
-  container.querySelectorAll("[data-tool]").forEach(button => {
-    button.addEventListener("click", () => {
-      openTool(button.dataset.tool);
-    });
+ // Tool card click navigation
+container.querySelectorAll("[data-tool]").forEach(button => {
+  button.addEventListener("click", () => {
+    const toolId = button.dataset.tool;
+
+    // Open dedicated PDF editor page
+    if (toolId === "editor") {
+      window.location.href = "edit-pdf.html";
+      return;
+    }
+
+    // Open dedicated JPG to PDF converter page
+    if (toolId === "jpg-to-pdf") {
+      window.location.href = "jpg-to-pdf.html";
+      return;
+    }
+
+    // Open all other tools normally
+    openTool(toolId);
   });
+});
 }
 
 renderTools();
@@ -332,6 +352,256 @@ function openTool(id) {
     : "Check availability →";
 
   $("#toolForm").innerHTML = buildToolForm(id);
+  function buildToolForm(id) {
+  const imageMode = id === "images";
+
+  let label = imageMode
+    ? "Choose image files"
+    : id === "merge"
+      ? "Choose at least two PDFs"
+      : "Choose a PDF file";
+
+  let extra = "";
+
+  if (["split", "remove", "extract"].includes(id)) {
+    const isSplit = id === "split";
+
+    extra = `
+      <div class="field">
+        <label for="pageRange">
+          Page numbers or ranges${isSplit ? " (optional)" : ""}
+        </label>
+
+        <input
+          id="pageRange"
+          value="${isSplit ? "" : "1"}"
+          placeholder="${isSplit
+            ? "Leave empty to split every page"
+            : "e.g. 1, 3-5, 8"}"
+        >
+      </div>
+    `;
+  }
+
+  if (id === "compress") {
+    extra = `
+      <div class="field">
+        <label for="compressMode">Compression level</label>
+
+        <select id="compressMode">
+          <option value="light">Light</option>
+          <option value="balanced">Strong</option>
+          <option value="max">Maximum</option>
+        </select>
+      </div>
+    `;
+  }
+
+  if (id === "ocr") {
+    extra = `
+      <div class="field">
+        <label for="ocrLang">Document language</label>
+
+        <select id="ocrLang">
+          <option value="eng">English</option>
+          <option value="hin">Hindi</option>
+          <option value="hin+eng">Hindi + English</option>
+        </select>
+      </div>
+    `;
+  }
+
+  if (id === "crop") {
+    extra = `
+      ${["Top", "Bottom", "Left", "Right"].map(side => `
+        <div class="field">
+          <label for="crop${side}">Crop ${side} (%)</label>
+          <input
+            id="crop${side}"
+            type="number"
+            min="0"
+            max="45"
+            value="5"
+          >
+        </div>
+      `).join("")}
+    `;
+  }
+
+  if (id === "rotate") {
+    extra = `
+      <div class="field">
+        <label for="rotation">Rotation</label>
+
+        <select id="rotation">
+          <option value="90">90° clockwise</option>
+          <option value="180">180°</option>
+          <option value="270">270° clockwise</option>
+        </select>
+      </div>
+    `;
+  }
+
+  if (id === "numbers") {
+    extra = `
+      <div class="field">
+        <label for="numberStart">Starting number</label>
+        <input
+          id="numberStart"
+          type="number"
+          min="1"
+          value="1"
+        >
+      </div>
+    `;
+  }
+
+  if (id === "watermark") {
+    extra = `
+      <div class="field">
+        <label for="watermarkText">Watermark text</label>
+        <input
+          id="watermarkText"
+          value="CONFIDENTIAL"
+          maxlength="80"
+        >
+      </div>
+
+      <div class="field">
+        <label for="watermarkOpacity">Opacity</label>
+
+        <select id="watermarkOpacity">
+          <option value="0.18">Light</option>
+          <option value="0.35">Medium</option>
+          <option value="0.6">Strong</option>
+        </select>
+      </div>
+    `;
+  }
+
+  if (!implemented.has(id)) {
+    extra = `
+      <div class="coming-soon">
+        <b>Additional processing engine required</b>
+        <p>
+          This tool is part of the interface, but its processing
+          engine is not connected in this starter project.
+        </p>
+      </div>
+    `;
+  }
+
+  // JPG TO PDF SETTINGS
+  const conversionSettings = id === "images" ? `
+    <div class="preview-settings">
+
+      <div class="field">
+        <label for="imagePaperSize">Paper size</label>
+
+        <select id="imagePaperSize">
+          <option value="a4">A4</option>
+          <option value="a3">A3</option>
+          <option value="letter">US Letter</option>
+          <option value="legal">Legal</option>
+          <option value="fit">Fit to Image</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="imageOrientation">Orientation</label>
+
+        <select id="imageOrientation">
+          <option value="auto">Auto</option>
+          <option value="portrait">Portrait</option>
+          <option value="landscape">Landscape</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="preview-note">
+      Arrange your photos before converting.
+      Each photo will be placed on its own PDF page.
+    </div>
+  ` : id === "jpg" ? `
+
+    <!-- PDF TO JPG SETTINGS -->
+
+    <div class="preview-settings">
+
+      <div class="field">
+        <label for="jpgResolution">Image resolution</label>
+
+        <select id="jpgResolution">
+          <option value="1">Standard (1×)</option>
+          <option value="1.5" selected>High (1.5×)</option>
+          <option value="2">Very High (2×)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="jpgQuality">JPG quality</label>
+
+        <select id="jpgQuality">
+          <option value="0.75">75% — Smaller</option>
+          <option value="0.9" selected>90% — Recommended</option>
+          <option value="0.98">98% — Best</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="preview-note">
+      Select, remove and rearrange PDF pages before exporting.
+    </div>
+
+  ` : "";
+
+  // PREVIEW AREA
+  const previewArea = ["images", "jpg"].includes(id) ? `
+    <div class="preview-heading">
+
+      <h3>
+        ${id === "images" ? "Photo previews" : "PDF page previews"}
+      </h3>
+
+      <span class="preview-count" id="previewCount">
+        0 items
+      </span>
+
+    </div>
+
+    <div class="media-preview-grid" id="mediaPreviewGrid">
+
+      <div class="preview-empty">
+        Your previews will appear here after selecting files.
+      </div>
+
+    </div>
+  ` : "";
+
+  return `
+    <div class="drop-zone" id="dropZone">
+
+      <div class="upload-symbol">↑</div>
+
+      <b>${label}</b>
+
+      <small>
+        Click to browse or drag and drop files
+      </small>
+
+    </div>
+
+    <div class="file-list" id="fileList"></div>
+
+    ${conversionSettings}
+
+    ${previewArea}
+
+    ${extra}
+  `;
+}
 
   modal.classList.add("open");
   picker.value = "";
@@ -628,6 +898,181 @@ function renderFileList() {
     button.addEventListener("click", () => {
       selectedFiles.splice(Number(button.dataset.remove), 1);
       renderFileList();
+        // Show uploaded file previews
+  if (activeTool === "images") {
+    renderImagePreviews();
+  }
+
+  if (activeTool === "jpg") {
+    renderPdfPagePreviews();
+  }
+  // Clean up old image preview URLs
+function clearPreviewUrls() {
+  previewObjectUrls.forEach(url => URL.revokeObjectURL(url));
+  previewObjectUrls = [];
+}
+
+// JPG / PNG IMAGE PREVIEW
+function renderImagePreviews() {
+  const grid = $("#mediaPreviewGrid");
+  const count = $("#previewCount");
+
+  if (!grid) return;
+
+  clearPreviewUrls();
+
+  if (!selectedFiles.length) {
+    grid.innerHTML = `
+      <div class="preview-empty">
+        Upload images to see previews.
+      </div>
+    `;
+
+    if (count) count.textContent = "0 images";
+    return;
+  }
+
+  if (count) {
+    count.textContent = `${selectedFiles.length} images`;
+  }
+
+  grid.innerHTML = selectedFiles.map((file, index) => {
+    const url = URL.createObjectURL(file);
+    previewObjectUrls.push(url);
+
+    return `
+      <div class="media-preview-card">
+
+        <img
+          src="${url}"
+          class="media-preview-image"
+          alt="${escapeHTML(file.name)}"
+        >
+
+        <div class="preview-info">
+          <b>${escapeHTML(file.name)}</b>
+          <small>Image ${index + 1}</small>
+        </div>
+
+        <button
+          type="button"
+          class="remove-file"
+          data-preview-remove="${index}"
+          aria-label="Remove image"
+        >×</button>
+
+      </div>
+    `;
+  }).join("");
+
+  grid.querySelectorAll("[data-preview-remove]").forEach(button => {
+    button.addEventListener("click", () => {
+      selectedFiles.splice(
+        Number(button.dataset.previewRemove),
+        1
+      );
+
+      renderFileList();
+    });
+  });
+}
+
+
+// PDF PAGE PREVIEW
+async function renderPdfPagePreviews() {
+  const grid = $("#mediaPreviewGrid");
+  const count = $("#previewCount");
+
+  if (!grid) return;
+
+  const file = selectedFiles[0];
+
+  if (!file) {
+    grid.innerHTML = `
+      <div class="preview-empty">
+        Upload a PDF to see page previews.
+      </div>
+    `;
+
+    if (count) count.textContent = "0 pages";
+    return;
+  }
+
+  const token = ++previewRenderToken;
+
+  grid.innerHTML = `
+    <div class="preview-empty">
+      Loading PDF page previews...
+    </div>
+  `;
+
+  try {
+    await ensureLibs(["pdfjs"]);
+
+    const buffer = await file.arrayBuffer();
+
+    const pdf = await pdfjsLib.getDocument({
+      data: new Uint8Array(buffer)
+    }).promise;
+
+    if (token !== previewRenderToken) return;
+
+    pdfPreviewDocument = pdf;
+
+    if (count) {
+      count.textContent = `${pdf.numPages} pages`;
+    }
+
+    grid.innerHTML = "";
+
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+      if (token !== previewRenderToken) return;
+
+      const page = await pdf.getPage(pageNumber);
+
+      const viewport = page.getViewport({ scale: 0.45 });
+
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      await page.render({
+        canvasContext: context,
+        viewport: viewport
+      }).promise;
+
+      if (token !== previewRenderToken) return;
+
+      const card = document.createElement("div");
+      card.className = "media-preview-card";
+
+      const title = document.createElement("div");
+      title.className = "preview-info";
+      title.textContent = `Page ${pageNumber}`;
+
+      canvas.className = "media-preview-image";
+
+      card.appendChild(canvas);
+      card.appendChild(title);
+
+      grid.appendChild(card);
+    }
+
+  } catch (error) {
+    if (token !== previewRenderToken) return;
+
+    grid.innerHTML = `
+      <div class="preview-empty">
+        Could not load PDF previews.
+        Please check your internet connection and PDF file.
+      </div>
+    `;
+
+    console.error("PDF preview error:", error);
+  }
+}
     });
   });
 }
