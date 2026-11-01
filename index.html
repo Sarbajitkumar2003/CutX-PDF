@@ -2,20 +2,10 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GH96932N0W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-GH96932N0W');
-</script>
     <!-- Basic Meta Information -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4544671417735558"
-     crossorigin="anonymous"></script>
+
     
 <title>CutX PDF — All PDF Tools</title>
 
@@ -34,7 +24,21 @@
 
 <!-- CutX PDF Favicon -->
 <link rel="icon" type="image/png" href="./favicon.png">
+<!-- CutX PDF PWA Configuration -->
+<link rel="manifest" href="/manifest.json">
 
+<meta name="theme-color" content="#00e5ff">
+<meta name="application-name" content="CutX PDF">
+
+<!-- Android PWA -->
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- Apple PWA Support -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CutX PDF">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link rel="apple-touch-icon" href="/favicon.png">
 
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="styles.css">
@@ -715,6 +719,26 @@
     <script src="pdf-engine.js"></script>
     <!-- CutX PDF Legal & Cookie Popup -->
     <script src="legal.js"></script>
+    <!-- CutX PDF PWA Service Worker -->
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js")
+            .then(registration => {
+                console.log(
+                    "CutX PDF PWA registered:",
+                    registration.scope
+                );
+            })
+            .catch(error => {
+                console.error(
+                    "PWA registration failed:",
+                    error
+                );
+            });
+    });
+}
+</script>
 
 </body>
 </html>
